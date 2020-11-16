@@ -18,6 +18,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/kataras/iris"
+	"github.com/kataras/iris/middleware/recover"
 	"hidevops.io/hiboot/pkg/app"
 	"hidevops.io/hiboot/pkg/app/web/context"
 	"hidevops.io/hiboot/pkg/at"
@@ -45,6 +46,13 @@ type webApp struct {
 func newWebApplication() *webApp {
 	irs := iris.New()
 	irs.Use(Cors)
+	irs.Use(recover.New())
+	common := irs.Party("/")
+	{
+		common.Options("*", func(ctx iris.Context) {
+			ctx.Next()
+		})
+	}
 	return &webApp{
 		Application: irs,
 	}
@@ -116,7 +124,6 @@ func (a *application) Run() {
 
 		// handler to Serve HTTP
 		http.Handle("/", a.webApp)
-
 		// serve web app with server port, default port number is 8080
 		if err == nil {
 			err = http.ListenAndServe(serverPort, nil)
