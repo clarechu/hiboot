@@ -17,6 +17,7 @@ package web
 import (
 	"errors"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/recover"
 	"hidevops.io/hiboot/pkg/app"
@@ -105,8 +106,12 @@ func (a *application) Initialize() error {
 	return a.BaseApplication.Initialize()
 }
 
+func (a *application) aa() {
+	http.Handle("/", a.webApp)
+}
+
 // Run run web application
-func (a *application) Run() {
+func (a *application) Run(h ...at.Handle) {
 	serverPort := ":8080"
 	// build HiBoot Application
 	err := a.build()
@@ -123,12 +128,19 @@ func (a *application) Run() {
 		err = a.webApp.Build()
 
 		// handler to Serve HTTP
-		http.Handle("/", a.webApp)
-		// serve web app with server port, default port number is 8080
-		if err == nil {
-			err = http.ListenAndServe(serverPort, nil)
-			log.Debug(err)
+		//http.Handle("/", a.webApp)
+		r := mux.NewRouter()
+		if len(h) != 0 {
+			err = h[0](r)
+			if err != nil {
+				panic(err)
+			}
 		}
+		r.Handle("/", a.webApp)
+		r.PathPrefix("")
+		// serve web app with server port, default port number is 8080
+		err = http.ListenAndServe(serverPort, r)
+		log.Debug(err)
 	}
 }
 

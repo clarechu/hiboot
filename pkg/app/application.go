@@ -19,6 +19,7 @@ import (
 	"errors"
 	"fmt"
 	"hidevops.io/hiboot/pkg/app/web/context"
+	"hidevops.io/hiboot/pkg/at"
 	"hidevops.io/hiboot/pkg/factory"
 	"hidevops.io/hiboot/pkg/factory/autoconfigure"
 	"hidevops.io/hiboot/pkg/factory/instantiate"
@@ -33,11 +34,11 @@ import (
 
 const (
 	// ApplicationContextName is the application context instance name
-	ApplicationContextName = "app.applicationContext"
-	ContextPathFormat = "server.context_path_format"
-	ContextPathFormatKebab = "kebab"
-	ContextPathFormatSnake = "snake"
-	ContextPathFormatCamel = "camel"
+	ApplicationContextName      = "app.applicationContext"
+	ContextPathFormat           = "server.context_path_format"
+	ContextPathFormatKebab      = "kebab"
+	ContextPathFormatSnake      = "snake"
+	ContextPathFormatCamel      = "camel"
 	ContextPathFormatLowerCamel = "lower-camel"
 )
 
@@ -48,7 +49,7 @@ type Application interface {
 	SetProperty(name string, value ...interface{}) Application
 	GetProperty(name string) (value interface{}, ok bool)
 	SetAddCommandLineProperties(enabled bool) Application
-	Run()
+	Run(h ...at.Handle)
 }
 
 // ApplicationContext is the alias interface of Application
@@ -196,7 +197,7 @@ func (a *BaseApplication) SetAddCommandLineProperties(enabled bool) Application 
 }
 
 // Run run the application
-func (a *BaseApplication) Run() {
+func (a *BaseApplication) Run(h ...at.Handle) {
 	log.Warn("application is not implemented!")
 }
 
