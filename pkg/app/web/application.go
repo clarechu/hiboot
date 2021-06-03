@@ -130,7 +130,7 @@ func (a *application) Run(h ...at.Handle) {
 		// handler to Serve HTTP
 		//http.Handle("/", a.webApp)
 		r := mux.NewRouter()
-		r.Handle("/", a.webApp)
+		r.Handle("/api", a.webApp)
 		if len(h) != 0 {
 			err = h[0](r)
 			if err != nil {
