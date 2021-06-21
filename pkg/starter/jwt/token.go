@@ -30,6 +30,7 @@ type Map map[string]interface{}
 
 // Token is the token interface
 type Token interface {
+	Generate1(payload Map, expired int64, unit time.Duration, startTime time.Time) (tokenString string, err error)
 	Generate(payload Map, expired int64, unit time.Duration) (string, error)
 	VerifyKey() *rsa.PublicKey
 }
