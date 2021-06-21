@@ -1,0 +1,105 @@
+basePath: /v2
+definitions:
+  main.Asset:
+    properties:
+      amount:
+        example: 987654321
+        type: number
+      expiration_time:
+        example: Sun Sep 29 15:47:50 CST 2019
+        type: string
+      id:
+        example: 1234567890
+        type: integer
+      name:
+        example: John Deng
+        type: string
+      type:
+        example: book
+        type: string
+    type: object
+  main.Employee:
+    properties:
+      assets:
+        items:
+          $ref: '#/definitions/main.Asset'
+        type: array
+      first_name:
+        example: John
+        type: string
+      id:
+        example: 123456
+        type: integer
+      last_name:
+        example: Deng
+        type: string
+      manger:
+        $ref: '#/definitions/main.Manager'
+        type: object
+    type: object
+  main.EmployeeResponse:
+    properties:
+      data:
+        $ref: '#/definitions/main.Employee'
+        type: object
+    type: object
+  main.Manager:
+    properties:
+      id:
+        default: 1000000
+        type: integer
+      name:
+        example: John Deng
+        type: string
+    type: object
+host: petstore.swagger.io
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /testapi/get-struct-array-by-string/{some_id}:
+    get:
+      consumes:
+      - application/json
+      description: get struct array by ID
+      parameters:
+      - description: Some ID
+        in: path
+        name: some_id
+        required: true
+        type: string
+      - description: Offset
+        in: query
+        name: offset
+        required: true
+        type: integer
+      - description: Offset
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: We need ID!!
+          schema:
+            $ref: '#/definitions/main.EmployeeResponse'
+        "404":
+          description: Can not find ID
+          schema:
+            $ref: '#/definitions/main.EmployeeResponse'
+swagger: "2.0"

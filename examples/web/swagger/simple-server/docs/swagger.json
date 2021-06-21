@@ -1,0 +1,152 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server Petstore server.",
+        "title": "Swagger Example API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "petstore.swagger.io",
+    "basePath": "/v2",
+    "paths": {
+        "/testapi/get-struct-array-by-string/{some_id}": {
+            "get": {
+                "description": "get struct array by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Some ID",
+                        "name": "some_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "We need ID!!",
+                        "schema": {
+                            "$ref": "#/definitions/main.EmployeeResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Can not find ID",
+                        "schema": {
+                            "$ref": "#/definitions/main.EmployeeResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.Asset": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "example": 987654321
+                },
+                "expiration_time": {
+                    "type": "string",
+                    "example": "Sun Sep 29 15:47:50 CST 2019"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1234567890
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Deng"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "book"
+                }
+            }
+        },
+        "main.Employee": {
+            "type": "object",
+            "properties": {
+                "assets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/main.Asset"
+                    }
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 123456
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Deng"
+                },
+                "manger": {
+                    "type": "object",
+                    "$ref": "#/definitions/main.Manager"
+                }
+            }
+        },
+        "main.EmployeeResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/main.Employee"
+                }
+            }
+        },
+        "main.Manager": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "default": 1000000
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Deng"
+                }
+            }
+        }
+    }
+}

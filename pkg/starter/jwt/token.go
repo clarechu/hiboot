@@ -102,3 +102,26 @@ func (t *jwtToken) Generate(payload Map, expired int64, unit time.Duration) (tok
 	}
 	return
 }
+
+
+// Generate generates JWT token with specified exired time
+func (t *jwtToken) Generate1(payload Map, expired int64, unit time.Duration, startTime time.Time) (tokenString string, err error) {
+	if t.jwtEnabled {
+		claim := jwt.MapClaims{
+			"exp": time.Now().Add(unit * time.Duration(expired)).Unix(),
+			"iat": startTime.Unix(),
+		}
+
+		for k, v := range payload {
+			claim[k] = v
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodRS256, claim)
+
+		// Sign and get the complete encoded token as a string using the secret
+		tokenString, err = token.SignedString(t.signKey)
+	} else {
+		err = fmt.Errorf("JWT is not initialized")
+	}
+	return
+}
