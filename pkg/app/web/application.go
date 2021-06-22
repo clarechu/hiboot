@@ -130,14 +130,14 @@ func (a *application) Run(h ...at.Handle) {
 		// handler to Serve HTTP
 		//http.Handle("/", a.webApp)
 		r := mux.NewRouter()
-		r.PathPrefix("/api").Handler(a.webApp)
+		r.PathPrefix("/").Handler(a.webApp)
 		if len(h) != 0 {
 			err = h[0](r)
 			if err != nil {
 				panic(err)
 			}
 		}
-		r.PathPrefix("")
+		//r.PathPrefix("")
 		// serve web app with server port, default port number is 8080
 		err = http.ListenAndServe(serverPort, r)
 		log.Debug(err)
