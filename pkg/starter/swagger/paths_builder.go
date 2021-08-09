@@ -19,7 +19,7 @@ import (
 const refPrefix = "#/definitions/"
 
 type apiPathsBuilder struct {
-	apiInfoBuilder *ApiInfo
+	apiInfo        *ApiInfo
 	primitiveTypes map[string]string
 }
 
@@ -43,7 +43,7 @@ func newApiPathsBuilder(builder *ApiInfo) *apiPathsBuilder {
 	log.Infof("visit %v to open api doc", visit)
 
 	return &apiPathsBuilder{
-		apiInfoBuilder: builder,
+		apiInfo: builder,
 		primitiveTypes: map[string]string{
 			// array, boolean, integer, number, object, string
 			"string": "string",
@@ -216,12 +216,12 @@ func (b *apiPathsBuilder) buildSchemaObject(ps *spec.Schema, typ reflect.Type, r
 	} else {
 		// try to find the definition ref first, if it does not exist, then build the schema property, otherwise just assign ref to schema
 		refName := typ.Name()
-		_, ok = b.apiInfoBuilder.Definitions[refName]
+		_, ok = b.apiInfo.Definitions[refName]
 		if !ok {
 			newSchema := spec.Schema{}
 			newSchema.Type = spec.StringOrArray{"object"}
 			b.buildSchemaProperty(&newSchema, typ, recursive)
-			b.apiInfoBuilder.Definitions[refName] = newSchema
+			b.apiInfo.Definitions[refName] = newSchema
 		}
 		ps.Ref = spec.MustCreateRef(refPrefix + refName)
 	}
@@ -246,16 +246,16 @@ func (b *apiPathsBuilder) buildSchema(ann *annotation.Annotation, field *reflect
 			// parse body schema and assign to definitions
 			schema.Ref = spec.MustCreateRef(refPrefix + field.Name)
 
-			if b.apiInfoBuilder.Definitions == nil {
+			if b.apiInfo.Definitions == nil {
 				def := make(spec.Definitions)
-				b.apiInfoBuilder.Definitions = def
+				b.apiInfo.Definitions = def
 			}
 
-			definition, ok := b.apiInfoBuilder.Definitions[field.Name]
+			definition, ok := b.apiInfo.Definitions[field.Name]
 			if !ok {
 				definition = spec.Schema{}
 				b.buildSchemaProperty(&definition, field.Type, false)
-				b.apiInfoBuilder.Definitions[field.Name] = definition
+				b.apiInfo.Definitions[field.Name] = definition
 			}
 		}
 	} else {
@@ -383,7 +383,7 @@ func (b *apiPathsBuilder) Build(atController *annotation.Annotations, atMethod *
 		}
 		//log.Debugf("%v:%v", method, path)
 
-		pathItem := b.apiInfoBuilder.Paths.Paths[pth]
+		pathItem := b.apiInfo.Paths.Paths[pth]
 
 		ann :=  annotation.GetAnnotation(atMethod, at.Operation{})
 
@@ -403,7 +403,7 @@ func (b *apiPathsBuilder) Build(atController *annotation.Annotations, atMethod *
 			b.buildOperation(operation, atMethod)
 
 			// add new path item
-			b.apiInfoBuilder.Paths.Paths[pth] = pathItem
+			b.apiInfo.Paths.Paths[pth] = pathItem
 			//log.Debug(b.openAPIDefinition.Paths.Paths[path])
 		}
 	}

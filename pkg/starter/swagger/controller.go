@@ -26,18 +26,18 @@ import (
 
 type controller struct {
 	at.RestController
-	at.RequestMapping `value:"/"`
+	at.RequestMapping `value:"/api"`
 
-	apiInfoBuilder *ApiInfo
+	apiInfo *ApiInfo
 }
 
 func newController(openAPIDefinition *ApiInfo) *controller {
-	return &controller{apiInfoBuilder: openAPIDefinition}
+	return &controller{apiInfo: openAPIDefinition}
 }
 
 // TODO: add description 'Implemented by HiBoot Framework'
 func (c *controller) loadDoc() (retVal []byte, err error) {
-	retVal, err = json.MarshalIndent(c.apiInfoBuilder.Swagger, "", "  ")
+	retVal, err = json.MarshalIndent(c.apiInfo.Swagger, "", "  ")
 	return
 }
 
@@ -45,9 +45,9 @@ func (c *controller) serve(ctx context.Context, docsPath string) {
 	b, err := c.loadDoc()
 	if err == nil {
 		// read host dynamically
-		c.apiInfoBuilder.Swagger.Host = ctx.Host()
+		c.apiInfo.Swagger.Host = ctx.Host()
 		// concat path
-		basePath := path.Join(c.apiInfoBuilder.Swagger.BasePath, c.RequestMapping.AtValue)
+		basePath := path.Join(c.apiInfo.Swagger.BasePath, c.RequestMapping.AtValue)
 
 		// get handler
 		handler := middleware.Redoc(middleware.RedocOpts{
