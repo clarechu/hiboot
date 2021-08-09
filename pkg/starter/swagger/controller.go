@@ -24,24 +24,24 @@ import (
 	"path"
 )
 
-type controller struct {
+type Swagger struct {
 	at.RestController
-	at.RequestMapping `value:"/api"`
+	at.RequestMapping `value:"/solar-mesh"`
 
 	apiInfo *ApiInfo
 }
 
-func newController(openAPIDefinition *ApiInfo) *controller {
-	return &controller{apiInfo: openAPIDefinition}
+func newController(openAPIDefinition *ApiInfo) *Swagger {
+	return &Swagger{apiInfo: openAPIDefinition}
 }
 
 // TODO: add description 'Implemented by HiBoot Framework'
-func (c *controller) loadDoc() (retVal []byte, err error) {
+func (c *Swagger) loadDoc() (retVal []byte, err error) {
 	retVal, err = json.MarshalIndent(c.apiInfo.Swagger, "", "  ")
 	return
 }
 
-func (c *controller) serve(ctx context.Context, docsPath string) {
+func (c *Swagger) serve(ctx context.Context, docsPath string) {
 	b, err := c.loadDoc()
 	if err == nil {
 		// read host dynamically
@@ -65,7 +65,9 @@ func (c *controller) serve(ctx context.Context, docsPath string) {
 }
 
 // UI serve static resource via context StaticResource method
-func (c *controller) Swagger(at struct{ at.GetMapping `value:"/swagger.json"` }) (response string) {
+func (c *Swagger) Swagger(at struct {
+	at.GetMapping `value:"/swagger.json"`
+}) (response string) {
 	b, err := c.loadDoc()
 	if err == nil {
 		response = string(b)
@@ -74,8 +76,9 @@ func (c *controller) Swagger(at struct{ at.GetMapping `value:"/swagger.json"` })
 }
 
 // UI serve static resource via context StaticResource method
-func (c *controller) SwaggerUI(at struct{ at.GetMapping `value:"/swagger-ui"` }, ctx context.Context) {
+func (c *Swagger) SwaggerUI(at struct {
+	at.GetMapping `value:"/swagger-ui"`
+}, ctx context.Context) {
 	c.serve(ctx, at.GetMapping.AtValue)
 	return
 }
-

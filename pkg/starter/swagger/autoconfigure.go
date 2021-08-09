@@ -6,7 +6,7 @@ import (
 )
 
 const (
-    // Profile is the configuration name "swagger"
+	// Profile is the configuration name "swagger"
 	Profile = "swagger"
 )
 
@@ -22,7 +22,7 @@ func init() {
 	app.Register(newConfiguration)
 }
 
-func (c *configuration) Controller(builder *ApiInfo) *controller {
+func (c *configuration) Controller(builder *ApiInfo) *Swagger {
 	return newController(builder)
 }
 
@@ -33,6 +33,3 @@ func (c *configuration) HttpMethodSubscriber(pathsBuilder *apiPathsBuilder) *htt
 func (c *configuration) ApiPathsBuilder(infoBuilder *ApiInfo) *apiPathsBuilder {
 	return newApiPathsBuilder(infoBuilder)
 }
-
-
-
