@@ -19,11 +19,11 @@ import (
 const refPrefix = "#/definitions/"
 
 type apiPathsBuilder struct {
-	apiInfoBuilder *apiInfoBuilder
+	apiInfoBuilder *ApiInfo
 	primitiveTypes map[string]string
 }
 
-func newApiPathsBuilder(builder *apiInfoBuilder) *apiPathsBuilder {
+func newApiPathsBuilder(builder *ApiInfo) *apiPathsBuilder {
 	if builder.SystemServer != nil {
 		if builder.SystemServer.Host != "" {
 			builder.SwaggerProps.Host = builder.SystemServer.Host

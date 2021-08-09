@@ -23,7 +23,7 @@ func init() {
 	app.Register(newConfiguration)
 }
 
-func (c *configuration) Controller(builder *apiInfoBuilder) *controller {
+func (c *configuration) Controller(builder *ApiInfo) *controller {
 	return newController(builder)
 }
 
@@ -31,7 +31,7 @@ func (c *configuration) HttpMethodSubscriber(pathsBuilder *apiPathsBuilder) *htt
 	return newHttpMethodSubscriber(pathsBuilder)
 }
 
-func (c *configuration) ApiPathsBuilder(infoBuilder *apiInfoBuilder) *apiPathsBuilder {
+func (c *configuration) ApiPathsBuilder(infoBuilder *ApiInfo) *apiPathsBuilder {
 	return newApiPathsBuilder(infoBuilder)
 }
 

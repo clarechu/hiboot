@@ -28,10 +28,10 @@ type controller struct {
 	at.RestController
 	at.RequestMapping `value:"/"`
 
-	apiInfoBuilder *apiInfoBuilder
+	apiInfoBuilder *ApiInfo
 }
 
-func newController(openAPIDefinition *apiInfoBuilder) *controller {
+func newController(openAPIDefinition *ApiInfo) *controller {
 	return &controller{apiInfoBuilder: openAPIDefinition}
 }
 

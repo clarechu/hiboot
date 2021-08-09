@@ -48,7 +48,7 @@ type License struct {
 	URL  string `json:"url,omitempty"`
 }
 
-type apiInfoBuilder struct {
+type ApiInfo struct {
 	at.ConfigurationProperties `value:"swagger"`
 	spec.Swagger
 
@@ -57,7 +57,7 @@ type apiInfoBuilder struct {
 }
 
 func ApiInfoBuilder() ApiInfoBuilderInterface {
-	return &apiInfoBuilder{
+	return &ApiInfo{
 		Swagger: spec.Swagger{
 			SwaggerProps: spec.SwaggerProps{
 				Swagger: "2.0",
@@ -71,92 +71,92 @@ func ApiInfoBuilder() ApiInfoBuilderInterface {
 	}
 }
 
-func (b *apiInfoBuilder) Title(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) Title(value string) ApiInfoBuilderInterface {
 	b.Swagger.SwaggerProps.Info.Title = value
 	return b
 }
 
-func (b *apiInfoBuilder) Description(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) Description(value string) ApiInfoBuilderInterface {
 	b.Swagger.SwaggerProps.Info.Description = value
 	return b
 }
 
-func (b *apiInfoBuilder) TermsOfServiceUrl(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) TermsOfServiceUrl(value string) ApiInfoBuilderInterface {
 	b.Swagger.SwaggerProps.Info.TermsOfService = value
 	return b
 }
 
-func (b *apiInfoBuilder) Version(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) Version(value string) ApiInfoBuilderInterface {
 	b.Swagger.SwaggerProps.Info.Version = value
 	return b
 }
 
-func (b *apiInfoBuilder) Host(values string) ApiInfoBuilderInterface {
+func (b *ApiInfo) Host(values string) ApiInfoBuilderInterface {
 	b.Swagger.SwaggerProps.Host = values
 	return b
 }
 
-func (b *apiInfoBuilder) BasePath(values string) ApiInfoBuilderInterface {
+func (b *ApiInfo) BasePath(values string) ApiInfoBuilderInterface {
 	b.Swagger.SwaggerProps.BasePath = values
 	return b
 }
 
-func (b *apiInfoBuilder) Schemes(values ...string) ApiInfoBuilderInterface {
+func (b *ApiInfo) Schemes(values ...string) ApiInfoBuilderInterface {
 	b.Swagger.SwaggerProps.Schemes = values
 	return b
 }
 
 
-func (b *apiInfoBuilder) ContactName(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) ContactName(value string) ApiInfoBuilderInterface {
 	b.ensureContact()
 	b.Swagger.SwaggerProps.Info.Contact.Name = value
 	return b
 }
 
-func (b *apiInfoBuilder) ensureContact() {
+func (b *ApiInfo) ensureContact() {
 	if b.Swagger.SwaggerProps.Info.Contact == nil {
 		b.Swagger.SwaggerProps.Info.Contact = &spec.ContactInfo{}
 	}
 }
 
-func (b *apiInfoBuilder) ContactEmail(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) ContactEmail(value string) ApiInfoBuilderInterface {
 	b.ensureContact()
 	b.Swagger.SwaggerProps.Info.Contact.Email = value
 	return b
 }
 
-func (b *apiInfoBuilder) ContactURL(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) ContactURL(value string) ApiInfoBuilderInterface {
 	b.ensureContact()
 	b.Swagger.SwaggerProps.Info.Contact.URL = value
 	return b
 }
 
-func (b *apiInfoBuilder) Contact(value Contact) ApiInfoBuilderInterface {
+func (b *ApiInfo) Contact(value Contact) ApiInfoBuilderInterface {
 	b.ContactName(value.Name)
 	b.ContactEmail(value.Email)
 	b.ContactURL(value.URL)
 	return b
 }
 
-func (b *apiInfoBuilder) ensureLicense() {
+func (b *ApiInfo) ensureLicense() {
 	if b.Swagger.SwaggerProps.Info.License == nil {
 		b.Swagger.SwaggerProps.Info.License = &spec.License{}
 	}
 }
 
-func (b *apiInfoBuilder) LicenseName(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) LicenseName(value string) ApiInfoBuilderInterface {
 	b.ensureLicense()
 	b.Swagger.SwaggerProps.Info.License.Name = value
 	return b
 }
 
-func (b *apiInfoBuilder) LicenseURL(value string) ApiInfoBuilderInterface {
+func (b *ApiInfo) LicenseURL(value string) ApiInfoBuilderInterface {
 	b.ensureLicense()
 	b.Swagger.SwaggerProps.Info.License.URL = value
 	return b
 }
 
-func (b *apiInfoBuilder) License(value License) ApiInfoBuilderInterface {
+func (b *ApiInfo) License(value License) ApiInfoBuilderInterface {
 	b.LicenseName(value.Name)
 	b.LicenseURL(value.URL)
 	return b
