@@ -52,7 +52,7 @@ func (c *Swagger) serve(ctx context.Context, docsPath string) {
 		// get handler
 		handler := middleware.Redoc(middleware.RedocOpts{
 			BasePath: basePath,
-			SpecURL:  path.Join(basePath, "swagger.json"),
+			SpecURL:  path.Join(basePath, "solar-mesh/swagger.json"),
 			Path:     docsPath,
 		}, http.NotFoundHandler())
 
@@ -66,7 +66,7 @@ func (c *Swagger) serve(ctx context.Context, docsPath string) {
 
 // UI serve static resource via context StaticResource method
 func (c *Swagger) Swagger(at struct {
-	at.GetMapping `value:"/solar-mesh/swagger.json"`
+	at.GetMapping `value:"/swagger.json"`
 }) (response string) {
 	b, err := c.loadDoc()
 	if err == nil {
