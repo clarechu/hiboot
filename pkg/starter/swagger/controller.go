@@ -26,7 +26,7 @@ import (
 
 type Swagger struct {
 	at.RestController
-	at.RequestMapping `value:"/solar-mesh"`
+	at.RequestMapping `value:"/"`
 
 	apiInfo *ApiInfo
 }
@@ -66,7 +66,7 @@ func (c *Swagger) serve(ctx context.Context, docsPath string) {
 
 // UI serve static resource via context StaticResource method
 func (c *Swagger) Swagger(at struct {
-	at.GetMapping `value:"/swagger.json"`
+	at.GetMapping `value:"/solar-mesh/swagger.json"`
 }) (response string) {
 	b, err := c.loadDoc()
 	if err == nil {
