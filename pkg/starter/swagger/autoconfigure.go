@@ -1,7 +1,6 @@
 package swagger
 
 import (
-	"hidevops.io/hiboot/pkg/app"
 	"hidevops.io/hiboot/pkg/at"
 )
 
@@ -18,10 +17,11 @@ func newConfiguration() *configuration {
 	return &configuration{}
 }
 
+/*
 func init() {
 	app.Register(newConfiguration)
 }
-
+*/
 func (c *configuration) Controller(builder *ApiInfo) *Swagger {
 	return newController(builder)
 }
