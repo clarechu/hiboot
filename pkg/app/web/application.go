@@ -136,7 +136,7 @@ func (a *application) Run(h ...at.Handle) {
 				panic(err)
 			}
 		}
-		r.PathPrefix("/").Handler(a.webApp)
+		r.PathPrefix("/solarmesh").Handler(a.webApp)
 		//r.PathPrefix("")
 		// serve web app with server port, default port number is 8080
 		err = http.ListenAndServe(serverPort, r)
